@@ -9,19 +9,51 @@ export const CadastroProdutos: React.FC = () => {
   const [preco, setPreco] = useState<string>("");
   const [nome, setNome] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
+  const [id, setID] = useState<string | undefined>("");
+  const [dataCadastro, setDataCadastro] = useState<string | undefined>("");
 
   const submit = () => {
     const produto: Produto = {
+      id,
       sku,
       preco: parseFloat(preco),
       nome,
       descricao,
     };
-    service.salvar(produto).then((response) => console.log(response));
+
+    if (id) {
+      service.atualizar(produto).then(() => {
+        console.log("atualizado");
+      });
+    } else {
+      service.salvar(produto).then((response) => {
+        setID(response.id);
+        setDataCadastro(response.dataCadastro);
+      });
+    }
   };
 
   return (
     <Layout titulo="Cadastro de Produtos">
+      {id && (
+        <div className="columns">
+          <Input
+            label="Codigo:"
+            columnClasses="is-half"
+            id="inputCodigo"
+            value={id}
+            disabled
+          />
+
+          <Input
+            label="Data Cadastro:"
+            columnClasses="is-half"
+            id="inputDataCadastro"
+            value={dataCadastro}
+            disabled
+          />
+        </div>
+      )}
       <div className="columns">
         <Input
           label="SKU: *"
@@ -59,7 +91,7 @@ export const CadastroProdutos: React.FC = () => {
               className="input"
               id="inputDesc"
               value={descricao}
-              onChange={(event) => setSku(event.target.value)}
+              onChange={(event) => setDescricao(event.target.value)}
               placeholder="Digite a descrição do produto"
             ></textarea>
           </div>
@@ -68,7 +100,7 @@ export const CadastroProdutos: React.FC = () => {
       <div className="field is-grouped">
         <div className="control">
           <button className="button is-link" onClick={submit}>
-            Salvar
+            {id ? "Atualizar" : "Salvar"}
           </button>
         </div>
         <div className="control">

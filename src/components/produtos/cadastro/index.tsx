@@ -2,6 +2,7 @@ import { Layout, Input } from "components";
 import { useState } from "react";
 import { useProdutoService } from "app/service";
 import { Produto } from "app/model/produto";
+import { Alert } from "components/common/message";
 
 export const CadastroProdutos: React.FC = () => {
   const service = useProdutoService();
@@ -11,7 +12,7 @@ export const CadastroProdutos: React.FC = () => {
   const [descricao, setDescricao] = useState<string>("");
   const [id, setID] = useState<string | undefined>("");
   const [dataCadastro, setDataCadastro] = useState<string | undefined>("");
-
+  const [messagens, setMessages] = useState<Array<Alert>>([]);
   const submit = () => {
     const produto: Produto = {
       id,
@@ -23,18 +24,23 @@ export const CadastroProdutos: React.FC = () => {
 
     if (id) {
       service.atualizar(produto).then(() => {
-        console.log("atualizado");
+        setMessages([
+          { tipo: "success", texto: "Produto atualizado com sucesso!" },
+        ]);
       });
     } else {
       service.salvar(produto).then((response) => {
         setID(response.id);
         setDataCadastro(response.dataCadastro);
+        setMessages([
+          { tipo: "success", texto: "Produto cadastrado com sucesso!" },
+        ]);
       });
     }
   };
 
   return (
-    <Layout titulo="Cadastro de Produtos">
+    <Layout titulo="Cadastro de Produtos" mensagens={messagens}>
       {id && (
         <div className="columns">
           <Input
@@ -70,6 +76,7 @@ export const CadastroProdutos: React.FC = () => {
           id="inputPreco"
           value={preco}
           onChange={setPreco}
+          currency
           placeholder="Digite o Preço"
         />
       </div>

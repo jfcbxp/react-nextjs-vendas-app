@@ -5,6 +5,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (value: any) => void;
   label: string;
   columnClasses?: string;
+  currency?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -12,6 +13,7 @@ export const Input: React.FC<InputProps> = ({
   label,
   columnClasses,
   id,
+  currency,
   ...inputProps
 }: InputProps) => {
   return (
@@ -23,6 +25,8 @@ export const Input: React.FC<InputProps> = ({
           id={id}
           {...inputProps}
           onChange={(event) => {
+            if (event.target.value && currency) {
+            }
             if (onChange) {
               onChange(event.target.value);
             }

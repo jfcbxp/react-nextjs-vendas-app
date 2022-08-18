@@ -6,6 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   columnClasses?: string;
   currency?: boolean;
+  error?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -14,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
   columnClasses,
   id,
   currency,
+  error,
   ...inputProps
 }: InputProps) => {
   return (
@@ -32,6 +34,7 @@ export const Input: React.FC<InputProps> = ({
             }
           }}
         ></input>
+        <p className="help is-danger"> {error}</p>
       </div>
     </div>
   );

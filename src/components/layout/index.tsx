@@ -22,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
                 <div className="content">
                   {props.mensagens &&
                     props.mensagens.map((mensagem) => (
-                      <Message {...mensagem} />
+                      <Message key={mensagem.texto} {...mensagem} />
                     ))}
                   {props.children}
                 </div>

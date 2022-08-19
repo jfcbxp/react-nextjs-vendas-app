@@ -1,4 +1,4 @@
-import { Layout } from "components/layout";
+import { Layout, Loader } from "components";
 import Link from "next/link";
 import { TabelaProdutos } from "./tabela";
 import { Produto } from "app/model/produto";
@@ -12,16 +12,14 @@ export const ListagemProdutos: React.FC = () => {
     (url) => httpClient.get(url)
   );
 
-  if (!result) {
-    return <div>Carregando</div>;
-  }
-
   return (
     <Layout titulo="Produtos">
+      <Loader show={!result} />
       <Link href="/cadastros/produtos">
         <button className="button is-warning"> Novo</button>
       </Link>
-      <TabelaProdutos produtos={result.data}></TabelaProdutos>
+
+      <TabelaProdutos produtos={result?.data || []} />
     </Layout>
   );
 };

@@ -4,6 +4,7 @@ import { useProdutoService } from "app/service";
 import { Produto } from "app/model/produto";
 import { Alert } from "components/common/message";
 import * as yup from "yup";
+import Link from "next/link";
 
 const MSG_CAMPO_OBRIGATORIO = "Campo obrigatorio";
 
@@ -14,7 +15,7 @@ const validationSchema = yup.object().shape({
     .string()
     .trim()
     .required(MSG_CAMPO_OBRIGATORIO)
-    .length(10, "Deve possuir pelo menos 10 caracteres"),
+    .min(10, "Deve possuir pelo menos 10 caracteres"),
   //  preco: yup.number().required(MSG_CAMPO_OBRIGATORIO).moreThan(0,"Valor deve ser maior que zero")
 });
 
@@ -161,7 +162,9 @@ export const CadastroProdutos: React.FC = () => {
           </button>
         </div>
         <div className="control">
-          <button className="button">Voltar</button>
+          <Link href="/consultas/produtos">
+            <button className="button">Voltar</button>
+          </Link>
         </div>
       </div>
     </Layout>

@@ -1,10 +1,11 @@
 import { Layout, Input } from "components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProdutoService } from "app/service";
 import { Produto } from "app/model/produto";
 import { Alert } from "components/common/message";
 import * as yup from "yup";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const MSG_CAMPO_OBRIGATORIO = "Campo obrigatorio";
 
@@ -28,19 +29,38 @@ interface FormErros {
 
 export const CadastroProdutos: React.FC = () => {
   const service = useProdutoService();
-  const [sku, setSku] = useState<string>("");
-  const [preco, setPreco] = useState<string>("");
-  const [nome, setNome] = useState<string>("");
-  const [descricao, setDescricao] = useState<string>("");
+  const [sku, setSku] = useState<string | undefined>("");
+  const [preco, setPreco] = useState<string | undefined>("");
+  const [nome, setNome] = useState<string | undefined>("");
+  const [descricao, setDescricao] = useState<string | undefined>("");
   const [id, setID] = useState<string | undefined>("");
   const [dataCadastro, setDataCadastro] = useState<string | undefined>("");
   const [messagens, setMessages] = useState<Array<Alert>>([]);
   const [errors, setErrors] = useState<FormErros>({});
+  const router = useRouter();
+  const { id: urlId } = router.query;
+
+  useEffect(() => {
+    if (urlId) {
+      let idProduto = urlId.toString();
+      service.carregarProduto(idProduto).then((produtoEncontrado) => {
+        setID(produtoEncontrado.id);
+        setSku(produtoEncontrado.sku);
+        setNome(produtoEncontrado.nome);
+        setDescricao(produtoEncontrado.descricao);
+        setPreco(produtoEncontrado.preco?.toString());
+        setDataCadastro(produtoEncontrado.dataCadastro);
+      });
+    }
+  }, [urlId]);
+
   const submit = () => {
+    let precoProduto = preco ? preco : "0";
+
     const produto: Produto = {
       id,
       sku,
-      preco: parseFloat(preco),
+      preco: parseFloat(precoProduto),
       nome,
       descricao,
     };

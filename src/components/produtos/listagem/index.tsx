@@ -5,6 +5,7 @@ import { Produto } from "app/model/produto";
 import useSWR from "swr";
 import { httpClient } from "app/http";
 import { AxiosResponse } from "axios";
+import Router from "next/router";
 
 export const ListagemProdutos: React.FC = () => {
   const { data: result, error } = useSWR<AxiosResponse<Array<Produto>>>(
@@ -12,14 +13,29 @@ export const ListagemProdutos: React.FC = () => {
     (url) => httpClient.get(url)
   );
 
+  const editar = (produto: Produto) => {
+    const url = `/cadastros/produtos?id=${produto.id}`;
+    Router.push(url)
+  };
+
+  const deletar = (produto: Produto) => {
+    console.log(produto);
+  };
+
   return (
     <Layout titulo="Produtos">
       <Loader show={!result} />
       <Link href="/cadastros/produtos">
         <button className="button is-warning"> Novo</button>
       </Link>
+      <br />
+      <br />
 
-      <TabelaProdutos produtos={result?.data || []} />
+      <TabelaProdutos
+        onEdit={editar}
+        onDelete={deletar}
+        produtos={result?.data || []}
+      />
     </Layout>
   );
 };

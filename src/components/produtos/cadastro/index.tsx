@@ -1,4 +1,4 @@
-import { Layout, Input } from "components";
+import { Layout, Input, InputMoney } from "components";
 import { useState, useEffect } from "react";
 import { useProdutoService } from "app/service";
 import { Produto } from "app/model/produto";
@@ -136,13 +136,12 @@ export const CadastroProdutos: React.FC = () => {
           error={errors.sku}
         />
 
-        <Input
+        <InputMoney
           label="Preço: *"
           columnClasses="is-half"
           id="inputPreco"
           value={preco}
           onChange={(e) => setPreco(e.target.value)}
-          currency
           placeholder="Digite o Preço"
           error={errors.preco}
         />

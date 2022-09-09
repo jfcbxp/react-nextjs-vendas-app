@@ -1,6 +1,6 @@
 import { Cliente } from "app/model/cliente";
 import { useFormik } from "formik";
-import { Input } from "components";
+import { Input, InputCpf, InputTelefone } from "components";
 interface ClienteFormProps {
   cliente: Cliente;
   onSubmit: (cliente: Cliente) => void;
@@ -63,7 +63,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
         />
       </div>
       <div className="columns">
-        <Input
+        <InputCpf
           label="Cpf: *"
           autoComplete="off"
           id="cpf"
@@ -103,7 +103,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           onChange={formik.handleChange}
           value={formik.values.email}
         />
-        <Input
+        <InputTelefone
           label="Telefone: *"
           autoComplete="off"
           id="telefone"

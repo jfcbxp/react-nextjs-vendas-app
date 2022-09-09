@@ -131,7 +131,7 @@ export const CadastroProdutos: React.FC = () => {
           columnClasses="is-half"
           id="inputSKU"
           value={sku}
-          onChange={setSku}
+          onChange={(e) => setSku(e.target.value)}
           placeholder="Digite o SKU do produto"
           error={errors.sku}
         />
@@ -141,7 +141,7 @@ export const CadastroProdutos: React.FC = () => {
           columnClasses="is-half"
           id="inputPreco"
           value={preco}
-          onChange={setPreco}
+          onChange={(e) => setPreco(e.target.value)}
           currency
           placeholder="Digite o Preço"
           error={errors.preco}
@@ -153,7 +153,7 @@ export const CadastroProdutos: React.FC = () => {
           columnClasses="is-full"
           id="inputNome"
           value={nome}
-          onChange={setNome}
+          onChange={(e) => setNome(e.target.value)}
           placeholder="Digite o Nome do produto"
           error={errors.nome}
         />

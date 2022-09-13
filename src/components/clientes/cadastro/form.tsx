@@ -1,6 +1,8 @@
 import { Cliente } from "app/model/cliente";
 import { useFormik } from "formik";
 import { Input, InputCpf, InputTelefone } from "components";
+import * as Yup from "yup";
+
 interface ClienteFormProps {
   cliente: Cliente;
   onSubmit: (cliente: Cliente) => void;
@@ -17,6 +19,24 @@ const formScheme: Cliente = {
   dataCadastro: "",
 };
 
+const validationScheme = Yup.object().shape({
+  nascimento: Yup.string()
+    .trim()
+    .required("Campo Obrigatorio")
+    .length(10, "Data Invalido"),
+  cpf: Yup.string()
+    .trim()
+    .required("Campo Obrigatorio")
+    .length(14, "CPF Invalido"),
+  nome: Yup.string().trim().required("Campo Obrigatorio"),
+  endereco: Yup.string().trim().required("Campo Obrigatorio"),
+  telefone: Yup.string().trim().required("Campo Obrigatorio"),
+  email: Yup.string()
+    .trim()
+    .required("Campo Obrigatorio")
+    .email("Email invalido"),
+});
+
 export const ClienteForm: React.FC<ClienteFormProps> = ({
   cliente,
   onSubmit,
@@ -25,6 +45,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
     initialValues: { ...formScheme, ...cliente },
     onSubmit,
     enableReinitialize: true,
+    validationSchema: validationScheme,
   });
 
   return (
@@ -61,6 +82,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-full"
           onChange={formik.handleChange}
           value={formik.values.nome}
+          error={formik.errors.nome}
         />
       </div>
       <div className="columns">
@@ -72,6 +94,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-half"
           onChange={formik.handleChange}
           value={formik.values.cpf}
+          error={formik.errors.cpf}
         />
         <Input
           label="Nascimento: *"
@@ -81,6 +104,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-half"
           onChange={formik.handleChange}
           value={formik.values.nascimento}
+          error={formik.errors.nascimento}
         />
       </div>
       <div className="columns">
@@ -92,6 +116,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-full"
           onChange={formik.handleChange}
           value={formik.values.endereco}
+          error={formik.errors.endereco}
         />
       </div>
       <div className="columns">
@@ -103,6 +128,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-half"
           onChange={formik.handleChange}
           value={formik.values.email}
+          error={formik.errors.email}
         />
         <InputTelefone
           label="Telefone: *"
@@ -112,6 +138,7 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
           columnClasses="is-half"
           onChange={formik.handleChange}
           value={formik.values.telefone}
+          error={formik.errors.telefone}
         />
       </div>
       <div className="field is-grouped">

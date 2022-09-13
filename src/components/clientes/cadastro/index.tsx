@@ -4,11 +4,22 @@ import { Cliente } from "app/model/cliente";
 import { useState } from "react";
 import { useClienteService } from "app/service";
 import { Alert } from "components/common/message";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export const CadastroCliente: React.FC = () => {
   const [cliente, setCliente] = useState<Cliente>({});
   const [messagens, setMessages] = useState<Array<Alert>>([]);
   const service = useClienteService();
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    id &&
+      service
+        .carregarCliente(id as string)
+        .then((clienteEncontrado) => setCliente(clienteEncontrado));
+  }, [id]);
 
   const handleSubmit = (cliente: Cliente) => {
     if (cliente.id) {

@@ -2,6 +2,7 @@ import { Cliente } from "app/model/cliente";
 import { useFormik } from "formik";
 import { Input, InputCpf, InputTelefone } from "components";
 import * as Yup from "yup";
+import Router from "next/router";
 
 interface ClienteFormProps {
   cliente: Cliente;
@@ -143,8 +144,17 @@ export const ClienteForm: React.FC<ClienteFormProps> = ({
       </div>
       <div className="field is-grouped">
         <div className="control">
-          <button className="button is-link" type="submit">
+          <button className="button is-success" type="submit">
             {formik.values.id ? "Atualizar" : "Salvar"}
+          </button>
+        </div>
+        <div className="control">
+          <button
+            className="button is-link"
+            onClick={(e) => Router.push("/consultas/clientes")}
+            type="button"
+          >
+            Voltar
           </button>
         </div>
       </div>

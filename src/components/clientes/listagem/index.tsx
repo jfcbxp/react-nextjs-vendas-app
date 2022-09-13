@@ -7,6 +7,9 @@ import { useState } from "react";
 import { Cliente } from "app/model/cliente";
 import { Page } from "app/model/common/page";
 import { useClienteService } from "app/service";
+import { Button } from "primereact/button";
+import Router from "next/router";
+import { confirmDialog } from "primereact/confirmdialog";
 
 interface ConsultaClienteForm {
   nome?: string;
@@ -46,6 +49,38 @@ export const ListagemClientes: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
+  const deletar = (cliente: Cliente) => {
+    cliente.id &&
+      service.deletar(cliente.id).then((result) => {
+        handlePage(null);
+      });
+  };
+
+  const actionTemplate = (registro: Cliente) => {
+    const url = `/cadastros/clientes?id=${registro.id}`;
+    return (
+      <div>
+        <Button
+          label="Editar"
+          className="p-button-rounded p-button-info"
+          onClick={(e) => Router.push(url)}
+        />
+        <Button
+          label="Deletar"
+          onClick={(e) => {
+            confirmDialog({
+              message: "cofirma a exclusão desse registro",
+              acceptLabel: "Sim",
+              rejectLabel: "Não",
+              accept: () => deletar(registro),
+            });
+          }}
+          className="p-button-rounded p-button-danger"
+        />
+      </div>
+    );
+  };
+
   return (
     <Layout titulo="Clientes">
       <form onSubmit={formik.handleSubmit}>
@@ -73,6 +108,15 @@ export const ListagemClientes: React.FC = () => {
               Consultar
             </button>
           </div>
+          <div className="control">
+            <button
+              onClick={(e) => Router.push("/cadastros/clientes")}
+              className="button is-warning"
+              type="submit"
+            >
+              Novo
+            </button>
+          </div>
         </div>
       </form>
       <br />
@@ -93,6 +137,7 @@ export const ListagemClientes: React.FC = () => {
             <Column field="nome" header="Nome" />
             <Column field="cpf" header="Cpf" />
             <Column field="email" header="Email" />
+            <Column body={actionTemplate} />
           </DataTable>
         </div>
       </div>

@@ -9,6 +9,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   formatter?: (value: string) => string;
 }
 
+const formatUtils = new FormatUtils();
+
 export const Input: React.FC<InputProps> = ({
   id,
   label,
@@ -50,16 +52,13 @@ export const Input: React.FC<InputProps> = ({
 };
 
 export const InputMoney: React.FC<InputProps> = (props: InputProps) => {
-  const formatUtils = new FormatUtils();
   return <Input {...props} formatter={formatUtils.formatOnlyIntegers} />;
 };
 
 export const InputCpf: React.FC<InputProps> = (props: InputProps) => {
-  const formatUtils = new FormatUtils();
   return <Input {...props} formatter={formatUtils.formatCPF} />;
 };
 
 export const InputTelefone: React.FC<InputProps> = (props: InputProps) => {
-  const formatUtils = new FormatUtils();
   return <Input {...props} formatter={formatUtils.formatPhone} />;
 };

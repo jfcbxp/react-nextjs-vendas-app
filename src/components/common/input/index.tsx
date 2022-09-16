@@ -1,4 +1,3 @@
-import { FormatUtils } from "@4us-dev/utils";
 import { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,8 +7,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   formatter?: (value: string) => string;
 }
-
-const formatUtils = new FormatUtils();
 
 export const Input: React.FC<InputProps> = ({
   id,
@@ -52,13 +49,13 @@ export const Input: React.FC<InputProps> = ({
 };
 
 export const InputMoney: React.FC<InputProps> = (props: InputProps) => {
-  return <Input {...props} formatter={formatUtils.formatOnlyIntegers} />;
+  return <Input {...props}/>;
 };
 
 export const InputCpf: React.FC<InputProps> = (props: InputProps) => {
-  return <Input {...props} formatter={formatUtils.formatCPF} />;
+  return <Input {...props}  />;
 };
 
 export const InputTelefone: React.FC<InputProps> = (props: InputProps) => {
-  return <Input {...props} formatter={formatUtils.formatPhone} />;
+  return <Input {...props} />;
 };

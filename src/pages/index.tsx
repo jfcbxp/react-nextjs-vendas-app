@@ -3,7 +3,11 @@ import { Layout, Dashboard } from "components";
 import { useDashboardService } from "app/service";
 import { DashboardData } from "app/model/dashboard";
 
-const Home: React.FC = (props: any) => {
+interface HomeProps {
+  dashboard: DashboardData
+}
+
+const Home: React.FC<HomeProps> = (props: HomeProps) => {
   return (
     <div>
       <Head>
@@ -15,6 +19,7 @@ const Home: React.FC = (props: any) => {
           clientes={props.dashboard.clientes}
           produtos={props.dashboard.produtos}
           vendas={props.dashboard.vendas}
+          vendasPorMes={props.dashboard.vendasPorMes}
         />
       </Layout>
     </div>
